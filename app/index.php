@@ -10,6 +10,14 @@ use Slim\Routing\RouteCollectorProxy;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+
+//
+require_once "./controllers/UsuarioController.php";
+require_once "./db/AccesoDatos.php";
+//
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+//
 // Instantiate App
 $app = AppFactory::create();
 
@@ -19,29 +27,34 @@ $app->addErrorMiddleware(true, true, true);
 // Add parse body
 $app->addBodyParsingMiddleware();
 
+//Set base path
+$app->setBasePath('/slim-php-deployment/app');
+
 // Routes
 $app->get('[/]', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "Bienvenido a SlimFramework 2023"));
+    $payload = json_encode(array('method' => 'GET', 'msg' => "Sin parametros"));
     $response->getBody()->write($payload);
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/test', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "Bienvenido a SlimFramework 2023"));
+    $payload = json_encode(array('method' => 'GET', 'msg' => "test"));
     $response->getBody()->write($payload);
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('[/]', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
-});
+$app->get('/todos', \UsuarioController::class . ':TraerTodos');
 
-$app->post('/test', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
-});
+// $app->post('[/]', function (Request $request, Response $response) {
+//     $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
+//     $response->getBody()->write($payload);
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
+
+// $app->post('/test', function (Request $request, Response $response) {
+//     $payload = json_encode(array('method' => 'POST', 'msg' => "test POST"));
+//     $response->getBody()->write($payload);
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 
 $app->run();
