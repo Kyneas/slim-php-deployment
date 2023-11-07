@@ -6,15 +6,17 @@ class Usuario
     public $usuario;
     public $clave;
     public $tipoUsuario;
+    public $fechaBaja;
 
     public function crearUsuario()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave) VALUES (:usuario, :clave)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, tipoUsuario) VALUES (:usuario, :clave, :tipoUsuario)");
         $claveHash = password_hash($this->clave, PASSWORD_DEFAULT);
         $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $claveHash);
         $consulta->bindValue(':tipoUsuario', $this->tipoUsuario, PDO::PARAM_STR);
+        // $consulta->bindValue(':fechaBaja', $this->fechaBaja, PDO::PARAM_STR);
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();
@@ -39,15 +41,15 @@ class Usuario
         return $consulta->fetchObject('Usuario');
     }
 
-    // public static function modificarUsuario()
-    // {
-    //     $objAccesoDato = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave WHERE id = :id");
-    //     $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
-    //     $consulta->bindValue(':clave', $this->clave, PDO::PARAM_STR);
-    //     $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
-    //     $consulta->execute();
-    // }
+    public static function modificarUsuario($usuario)
+    {
+        $objAccesoDato = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE usuarios SET usuario = :usuario, clave = :clave WHERE id = :id");
+        $consulta->bindValue(':usuario', $usuario->usuario, PDO::PARAM_STR);
+        $consulta->bindValue(':clave', $usuario->clave, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $usuario->id, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 
     public static function borrarUsuario($usuario)
     {

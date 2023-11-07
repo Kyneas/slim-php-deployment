@@ -31,19 +31,23 @@ $app->addBodyParsingMiddleware();
 $app->setBasePath('/slim-php-deployment/app');
 
 // Routes
-$app->get('[/]', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "Sin parametros"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
-});
+// $app->get('[/]', function (Request $request, Response $response) {
+//     $payload = json_encode(array('method' => 'GET', 'msg' => "Sin parametros"));
+//     $response->getBody()->write($payload);
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 
-$app->get('/test', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "test"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
-});
+// $app->get('/test', function (Request $request, Response $response) {
+//     $payload = json_encode(array('method' => 'GET', 'msg' => "test"));
+//     $response->getBody()->write($payload);
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 
-$app->get('/todos', \UsuarioController::class . ':TraerTodos');
+$app->get('/us/todos', \UsuarioController::class . ':TraerTodos');
+// $app->get('/us/uno', \UsuarioController::class . ':TraerUno');
+$app->post('/us/nuevo', \UsuarioController::class . ':CargarUno');
+
+$app->get('/pr/todos', \UsuarioController::class . ':TraerTodos');
 
 // $app->post('[/]', function (Request $request, Response $response) {
 //     $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
