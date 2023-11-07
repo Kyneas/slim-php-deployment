@@ -13,6 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 //
 require_once "./controllers/UsuarioController.php";
+require_once "./controllers/ProductoController.php";
 require_once "./db/AccesoDatos.php";
 //
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -44,10 +45,11 @@ $app->setBasePath('/slim-php-deployment/app');
 // });
 
 $app->get('/us/todos', \UsuarioController::class . ':TraerTodos');
-// $app->get('/us/uno', \UsuarioController::class . ':TraerUno');
 $app->post('/us/nuevo', \UsuarioController::class . ':CargarUno');
 
-$app->get('/pr/todos', \UsuarioController::class . ':TraerTodos');
+
+$app->get('/pr/todos', \ProductoController::class . ':TraerTodos');
+$app->post('/pr/nuevo', \ProductoController::class . ':CargarUno');
 
 // $app->post('[/]', function (Request $request, Response $response) {
 //     $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
