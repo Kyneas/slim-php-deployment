@@ -14,6 +14,8 @@ require __DIR__ . '/../vendor/autoload.php';
 //
 require_once "./controllers/UsuarioController.php";
 require_once "./controllers/ProductoController.php";
+require_once "./controllers/MesaController.php";
+require_once "./controllers/PedidoController.php";
 require_once "./db/AccesoDatos.php";
 //
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -50,6 +52,12 @@ $app->post('/us/nuevo', \UsuarioController::class . ':CargarUno');
 
 $app->get('/pr/todos', \ProductoController::class . ':TraerTodos');
 $app->post('/pr/nuevo', \ProductoController::class . ':CargarUno');
+
+$app->get('/ms/todos', \MesaController::class . ':TraerTodos');
+$app->post('/ms/nuevo', \MesaController::class . ':CargarUno');
+
+$app->get('/pe/todos', \PedidoController::class . ':TraerTodos');
+$app->post('/pe/nuevo', \PedidoController::class . ':CargarUno');
 
 // $app->post('[/]', function (Request $request, Response $response) {
 //     $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
